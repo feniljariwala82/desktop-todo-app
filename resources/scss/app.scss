@@ -1,0 +1,52 @@
+@charset "utf-8";
+
+@import "constants";
+
+$body-background-color: $grey-darker;
+$text: $white;
+
+// Import only what you need from Bulma
+@import "../../node_modules/bulma/bulma.sass";
+
+$background: $grey-darker;
+
+.header-background-color {
+  background-color: $black-ter;
+  border-bottom: 1px solid #d0d0d0;
+}
+
+#draggable {
+  -webkit-app-region: drag;
+}
+
+#notDraggable {
+  -webkit-app-region: no-drag;
+}
+
+// changing color of the scroll bar
+html {
+  overflow: scroll;
+  height: "100%";
+  width: "100%";
+}
+
+::-webkit-scrollbar {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: $black-ter;
+}
+
+.custom-footer {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  color: white;
+  text-align: center;
+}
+
+.label {
+  color: white;
+}

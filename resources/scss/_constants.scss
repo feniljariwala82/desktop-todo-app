@@ -1,0 +1,46 @@
+$primary: #b52b65;
+$link: #ed6663;
+$link-hover: #c45250;
+$success: #35ac5e;
+$info: #209cee;
+$warning: #ffdd57;
+$white: hsl(0, 0%, 100%);
+
+$grey: hsl(0, 0%, 48%);
+$black-bis: hsl(0, 0%, 7%);
+$black-ter: hsl(0, 0%, 14%);
+$grey-darker: hsl(0, 0%, 21%);
+$grey-lighter: hsl(0, 0%, 86%);
+
+// Update Bulma's global variables
+$family-sans-serif: "Nunito", sans-serif;
+$widescreen-enabled: false;
+$fullhd-enabled: false;
+
+// Update some of Bulma's component variables
+$control-border-width: 2px;
+$input-border-color: transparent;
+$input-shadow: none;
+
+// button
+$button-padding-horizontal: 1.2em;
+
+// input
+$input-background-color: $black-ter;
+$input-color: $white;
+$input-border-color: $grey;
+
+// card
+$card-background-color: $black-ter;
+$card-content-background-color: $black-bis;
+$card-header-color: $white;
+
+// box
+$box-background-color: $card-background-color;
+
+// page loader
+$pageloader-opacity: 0.8;
+
+// progress bar border
+$progress-border-radius: 0;
+$progress-bar-background-color: $grey-darker;

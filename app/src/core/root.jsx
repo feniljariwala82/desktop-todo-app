@@ -1,6 +1,6 @@
 import React, { Fragment } from "react";
 import "./root.css";
-import Navbar from "../partials/Navbar";
+import Navbar from "partials/Navbar";
 
 const Root = () => {
   return (

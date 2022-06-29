@@ -1,12 +1,14 @@
 import React from "react";
+import { createRoot } from "react-dom/client";
 import "./app.css";
-import Root from "Core/root";
+import Root from "core/root";
 import { Suspense } from "react";
-import ReactDOM from "react-dom";
 
-ReactDOM.render(
+const container = document.getElementById("target");
+
+const root = createRoot(container); // createRoot(container!) if you use TypeScript
+root.render(
   <Suspense fallback="loading">
     <Root />
-  </Suspense>,
-  document.getElementById("target")
+  </Suspense>
 );

@@ -1,14 +1,35 @@
-import React, { Fragment } from "react";
-import "./root.css";
-import Navbar from "partials/Navbar";
+import React, { Fragment } from 'react';
+import './root.css';
+import { useSelector, useDispatch } from 'react-redux';
+import Navbar from 'partials/Navbar';
+import { decrement, increment } from 'features/counter/counterSlice';
 
-const Root = () => {
+function Root() {
+  const count = useSelector((state) => state.counter.value);
+  const dispatch = useDispatch();
+
   return (
     <Fragment>
       <Navbar />
-      <h2 className="is-size-4">Hey it yeah</h2>
+      <div>
+        <div>
+          <button
+            type="button"
+            aria-label="Increment value"
+            onClick={() => dispatch(increment())}>
+            Increment
+          </button>
+          <span>{count}</span>
+          <button
+            type="button"
+            aria-label="Decrement value"
+            onClick={() => dispatch(decrement())}>
+            Decrement
+          </button>
+        </div>
+      </div>
     </Fragment>
   );
-};
+}
 
 export default Root;

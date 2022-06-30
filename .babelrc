@@ -8,7 +8,9 @@
           "components": "./app/src/components",
           "core": "./app/src/core",
           "pages": "./app/src/pages",
-          "partials": "./app/src/partials"
+          "partials": "./app/src/partials",
+          "store": "./app/src/app/store.js",
+          "features": "./app/src/features"
         }
       },
       "@babel/plugin-syntax-dynamic-import"

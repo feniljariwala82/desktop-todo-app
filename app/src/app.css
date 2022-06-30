@@ -7326,8 +7326,8 @@ a.has-text-danger-dark:hover, a.has-text-danger-dark:focus {
 
 html {
   overflow: scroll;
-  height: "100%";
-  width: "100%"; }
+  height: '100%';
+  width: '100%'; }
 
 ::-webkit-scrollbar {
   background: transparent; }

@@ -1,9 +1,13 @@
-import React, { Fragment } from "react";
+import React, { Fragment } from 'react';
 
 const SignUp = () => {
   return (
     <Fragment>
-      <h4>SignUp</h4>
+      <div className="container">
+        <div className="section">
+          <p>Signup</p>
+        </div>
+      </div>
     </Fragment>
   );
 };

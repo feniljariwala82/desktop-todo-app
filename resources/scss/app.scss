@@ -1,12 +1,13 @@
 @charset "utf-8";
 
-@import "constants";
+// theme related scss
+@import 'constants';
 
 $body-background-color: $grey-darker;
 $text: $white;
 
 // Import only what you need from Bulma
-@import "../../node_modules/bulma/bulma.sass";
+@import '../../node_modules/bulma/bulma.sass';
 
 $background: $grey-darker;
 
@@ -26,8 +27,8 @@ $background: $grey-darker;
 // changing color of the scroll bar
 html {
   overflow: scroll;
-  height: "100%";
-  width: "100%";
+  height: '100%';
+  width: '100%';
 }
 
 ::-webkit-scrollbar {

@@ -1,35 +1,36 @@
 import React, { Fragment } from 'react';
 import './root.css';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 import Navbar from 'partials/Navbar';
-import { decrement, increment } from 'features/counter/counterSlice';
+import { MemoryRouter, Routes, Route } from 'react-router-dom';
+import LoginPage from 'pages/auth/Login';
+import SignupPage from 'pages/auth/Signup';
+import HomeIndexPage from 'pages/home/Index';
+import NotFoundPage from 'pages/error/NotFoundPage';
+import RequireAuth from 'components/auth/RequireAuth';
 
-function Root() {
-  const count = useSelector((state) => state.counter.value);
-  const dispatch = useDispatch();
+const Root = () => {
+  const { isLoggedIn } = useSelector((state) => state.auth);
 
   return (
     <Fragment>
       <Navbar />
-      <div>
-        <div>
-          <button
-            type="button"
-            aria-label="Increment value"
-            onClick={() => dispatch(increment())}>
-            Increment
-          </button>
-          <span>{count}</span>
-          <button
-            type="button"
-            aria-label="Decrement value"
-            onClick={() => dispatch(decrement())}>
-            Decrement
-          </button>
-        </div>
-      </div>
+      <MemoryRouter initialEntries={['/']}>
+        <Routes>
+          <Route path="/login" element={<LoginPage />}></Route>
+          <Route path="/signup" element={<SignupPage />}></Route>
+          <Route
+            path="/"
+            element={
+              <RequireAuth>
+                <HomeIndexPage />
+              </RequireAuth>
+            }></Route>
+          <Route path="*" element={<NotFoundPage />} />
+        </Routes>
+      </MemoryRouter>
     </Fragment>
   );
-}
+};
 
 export default Root;

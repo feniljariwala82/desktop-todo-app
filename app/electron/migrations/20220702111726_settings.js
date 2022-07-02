@@ -8,7 +8,7 @@ exports.up = function (knex) {
   return knex.schema.createTable(table_name, function (table) {
     table.increments().primary();
     table.string('key').notNullable();
-    table.string('value').notNullable();
+    table.text('value').notNullable();
     table.timestamp('created_at', { useTz: true });
     table.timestamp('updated_at', { useTz: true });
   });

@@ -1,4 +1,4 @@
-const table_name = "tasks";
+const table_name = 'tasks';
 
 /**
  * @param { import("knex").Knex } knex
@@ -7,19 +7,20 @@ const table_name = "tasks";
 exports.up = function (knex) {
   return knex.schema.createTable(table_name, function (table) {
     table.increments().primary();
-    table.string("title", 50).notNullable();
-    table.string("description", 600).notNullable();
+    table.string('title', 50).notNullable();
+    table.string('description', 600).notNullable();
     table
-      .enu("priority", ["important", "unimportant", "urgent", "future_scope"])
+      .enu('priority', ['important', 'unimportant', 'urgent', 'future_scope'])
       .notNullable()
-      .defaultTo("important");
+      .defaultTo('important');
     table
-      .integer("user_id")
+      .integer('user_id')
       .unsigned()
-      .references("users.id")
-      .onDelete("CASCADE")
+      .references('users.id')
+      .onDelete('CASCADE')
       .notNullable();
-    table.timestamps();
+    table.timestamp('created_at', { useTz: true });
+    table.timestamp('updated_at', { useTz: true });
   });
 };
 

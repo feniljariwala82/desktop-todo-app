@@ -15,3 +15,9 @@ contextBridge.exposeInMainWorld('api', {
   contextMenu: ContextMenu.preloadBindings(ipcRenderer),
   licenseKeys: SecureElectronLicenseKeys.preloadBindings(ipcRenderer),
 });
+
+contextBridge.exposeInMainWorld('electron', {
+  getVersion: () => ipcRenderer.invoke('applications-version'),
+  login: (args) => ipcRenderer.invoke('auth-login', args),
+  signup: (args) => ipcRenderer.invoke('auth-signup', args),
+});

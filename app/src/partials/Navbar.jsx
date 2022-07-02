@@ -1,54 +1,57 @@
-import React from "react";
+import React from 'react';
+import { NavLink, Link } from 'react-router-dom';
 
 const Navbar = () => {
   return (
-    <nav
-      className="navbar is-dark"
-      role="navigation"
-      aria-label="main navigation">
-      <div className="navbar-brand">
-        <a className="navbar-item is-size-4 has-text-weight-semibold" href="/">
-          Todo Hut
-        </a>
-
-        <a
-          role="button"
-          className="navbar-burger"
-          aria-label="menu"
-          aria-expanded="false"
-          data-target="navbarBasicExample">
-          <span aria-hidden="true"></span>
-          <span aria-hidden="true"></span>
-          <span aria-hidden="true"></span>
-        </a>
+    <div className="is-flex is-justify-content-space-between m-2">
+      <div>
+        <Link to="/">
+          <span className="has-text-weight-semibold is-size-4">TodoHut</span>
+        </Link>
       </div>
-
-      <div id="navbarBasicExample" className="navbar-menu">
-        <div className="navbar-start">
-          <a className="navbar-item">Tasks</a>
-
-          <div className="navbar-item has-dropdown is-hoverable">
-            <a className="navbar-link">Username</a>
-
-            <div className="navbar-dropdown">
-              <a className="navbar-item">Profile</a>
-              <a className="navbar-item">Logout</a>
+      <div className="is-flex">
+        <NavLink to="/login">
+          {({ isActive }) => (
+            <div className="is-flex is-flex-direction-column is-align-items-center">
+              <div>
+                <i className="fa-solid fa-right-to-bracket fa-2x"></i>
+              </div>
+              <div>
+                <span
+                  className={
+                    isActive
+                      ? 'has-text-weight-semibold is-size-5'
+                      : 'is-size-5 mx-2'
+                  }>
+                  Login
+                </span>
+              </div>
             </div>
-          </div>
-        </div>
+          )}
+        </NavLink>
 
-        <div className="navbar-end">
-          <div className="navbar-item">
-            <div className="buttons">
-              <a className="button is-primary">
-                <strong>Sign up</strong>
-              </a>
-              <a className="button is-light">Log in</a>
+        <NavLink to="/signup">
+          {({ isActive }) => (
+            <div className="is-flex is-flex-direction-column is-align-items-center">
+              <div>
+                <i className="fa-solid fa-user-plus fa-2x"></i>
+              </div>
+              <div>
+                <span
+                  className={
+                    isActive
+                      ? 'has-text-weight-semibold is-size-5'
+                      : 'is-size-5 mx-2'
+                  }>
+                  SignUp
+                </span>
+              </div>
             </div>
-          </div>
-        </div>
+          )}
+        </NavLink>
       </div>
-    </nav>
+      <div>Other</div>
+    </div>
   );
 };
 

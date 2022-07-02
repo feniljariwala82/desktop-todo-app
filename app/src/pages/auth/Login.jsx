@@ -1,10 +1,4 @@
 import React, { Fragment } from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {
-  solid,
-  regular,
-  brands,
-} from '@fortawesome/fontawesome-svg-core/import.macro'; // <-- import s
 
 const Login = () => {
   return (
@@ -33,10 +27,6 @@ const Login = () => {
                 />
               </div>
             </div>
-
-            <FontAwesomeIcon icon={solid('user-secret')} />
-            <FontAwesomeIcon icon={regular('coffee')} />
-            <FontAwesomeIcon icon={brands('twitter')} />
 
             <button className="button is-primary">Sign in</button>
           </form>

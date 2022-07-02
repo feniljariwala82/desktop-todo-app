@@ -6,6 +6,7 @@ const {
   session,
   ipcMain,
   Menu,
+  dialog,
   // eslint-disable-next-line import/no-extraneous-dependencies
 } = require('electron');
 const {
@@ -21,6 +22,7 @@ const fs = require('fs');
 const crypto = require('crypto');
 const { mkdir } = require('fs/promises');
 const Protocol = require('./protocol');
+const AuthController = require('./controllers/AuthController');
 
 const isDev = process.env.NODE_ENV === 'development';
 const port = 40992; // Hardcoded; needs to match webpack.development.js and package.json
@@ -32,14 +34,11 @@ const migrate = async () => {
 
   try {
     await knex.migrate.latest({});
-  } catch (e) {
-    app.exit();
-  } finally {
-    try {
-      knex.destroy();
-    } catch (e) {
-      // ignore
-    }
+  } catch (error) {
+    dialog.showErrorBox('TodoHut', error.message);
+    setTimeout(() => {
+      app.exit();
+    }, 2000);
   }
 };
 
@@ -341,3 +340,10 @@ app.on('remote-get-current-window', (event) => {
 app.on('remote-get-current-web-contents', (event) => {
   event.preventDefault();
 });
+
+ipcMain.handle('applications-version', () => {
+  return app.getVersion();
+});
+
+ipcMain.handle('auth-login', (_, args) => AuthController.login(args));
+ipcMain.handle('auth-signup', (_, args) => AuthController.signup(args));

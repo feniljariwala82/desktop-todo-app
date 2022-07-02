@@ -1,6 +1,5 @@
 import React, { Fragment } from 'react';
 import './root.css';
-import { useSelector } from 'react-redux';
 import Navbar from 'partials/Navbar';
 import { MemoryRouter, Routes, Route } from 'react-router-dom';
 import LoginPage from 'pages/auth/Login';
@@ -10,12 +9,10 @@ import NotFoundPage from 'pages/error/NotFoundPage';
 import RequireAuth from 'components/auth/RequireAuth';
 
 const Root = () => {
-  const { isLoggedIn } = useSelector((state) => state.auth);
-
   return (
     <Fragment>
-      <Navbar />
       <MemoryRouter initialEntries={['/']}>
+        <Navbar />
         <Routes>
           <Route path="/login" element={<LoginPage />}></Route>
           <Route path="/signup" element={<SignupPage />}></Route>

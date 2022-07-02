@@ -1,4 +1,4 @@
-const table_name = 'users';
+const table_name = 'settings';
 
 /**
  * @param { import("knex").Knex } knex
@@ -7,10 +7,8 @@ const table_name = 'users';
 exports.up = function (knex) {
   return knex.schema.createTable(table_name, function (table) {
     table.increments().primary();
-    table.string('email', 255).unique().notNullable();
-    table.string('password', 180).notNullable();
-    table.string('first_name', 50).notNullable();
-    table.string('last_name', 50).notNullable();
+    table.string('key').notNullable();
+    table.text('value').notNullable();
     table.timestamp('created_at', { useTz: true });
     table.timestamp('updated_at', { useTz: true });
   });

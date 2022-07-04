@@ -203,7 +203,9 @@ const createWindow = async () => {
   //   }
   // });
 
-  // running migrations
+  /**
+   * running migrations
+   */
   migrate();
 };
 

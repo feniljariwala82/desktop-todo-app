@@ -1,23 +1,27 @@
+/* eslint-disable no-tabs */
 require('dotenv').config();
-const path = require('path');
+const sqlite3 = require('@journeyapps/sqlcipher').verbose();
+const log = require('electron-log');
+const { cacheGet } = require('../services/CacheService');
+const constants = require('./constants');
 
-const myDBConfig = {
-  client: 'sqlite3',
-  connection: {
-    filename: process.env.DATABASE_PATH,
-  },
-  migrations: {
-    directory: path.join(__dirname, '..', 'migrations'),
-  },
-  useNullAsDefault: true,
-  pool: {
-    afterCreate: function (conn, done) {
-      conn.run("PRAGMA KEY = 'password'");
-      done();
-    },
-  },
-};
+const { DATABASE_PATH, NODE_ENV } = constants.application;
 
-const knex = require('knex')(myDBConfig);
+let db;
 
-module.exports = knex;
+const databasePath = cacheGet(DATABASE_PATH);
+if (cacheGet(NODE_ENV) && databasePath) {
+  db = new sqlite3.Database(databasePath);
+} else if (process.env.DATABASE_PATH) {
+  db = new sqlite3.Database(process.env.DATABASE_PATH);
+} else {
+  log.error('Database path not found');
+}
+
+db.serialize(() => {
+  // This is the default, but it is good to specify explicitly:
+  db.run('PRAGMA cipher_compatibility = 4');
+  db.run("PRAGMA key = 'simple'");
+});
+
+module.exports = db;

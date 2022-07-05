@@ -6,7 +6,6 @@ const {
   session,
   ipcMain,
   Menu,
-  dialog,
   // eslint-disable-next-line import/no-extraneous-dependencies
 } = require('electron');
 const {
@@ -20,33 +19,36 @@ const ContextMenu = require('secure-electron-context-menu').default;
 const path = require('path');
 const fs = require('fs');
 const crypto = require('crypto');
+const log = require('electron-log');
 const { mkdir } = require('fs/promises');
 const Protocol = require('./protocol');
-const AuthController = require('./controllers/AuthController');
+const Migration = require('./sql/index');
+const { cacheSet } = require('./services/CacheService');
+const constants = require('./config/constants');
 
+// const AuthController = require('./controllers/AuthController');
+
+const { NODE_ENV, DATABASE_PATH } = constants.application;
 const isDev = process.env.NODE_ENV === 'development';
 const port = 40992; // Hardcoded; needs to match webpack.development.js and package.json
 const selfHost = `http://localhost:${port}`;
 
-const migrate = async () => {
-  // eslint-disable-next-line global-require
-  const knex = require('./config/database');
+log.transports.console.format = '{h}:{i}:{s} {text}';
+log.transports.file.resolvePath = () =>
+  // eslint-disable-next-line implicit-arrow-linebreak
+  path.join(app.getPath('userData'), 'logs/main.log');
 
-  try {
-    await knex.migrate.latest({});
-  } catch (error) {
-    dialog.showErrorBox('TodoHut', error.message);
-    setTimeout(() => {
-      app.exit();
-    }, 2000);
-  }
-};
+async function migrate() {
+  Migration.run();
+}
 
 /**
  * setting database path for production
  */
 
-if (app.isPackaged) {
+if (process.env.NODE_ENV === 'production') {
+  cacheSet(NODE_ENV, 'production');
+
   const directoryPath = path.join(app.getPath('userData'), 'database');
 
   // if database directory does not exist then creating one
@@ -60,7 +62,8 @@ if (app.isPackaged) {
     };
     createDir();
   }
-  process.env.DATABASE_PATH = path.join(directoryPath, 'todo_hut_app.sqlite');
+
+  cacheSet(DATABASE_PATH, path.join(directoryPath, 'todo_hut_app.db'));
 }
 
 // Keep a global reference of the window object, if you don't, the window will
@@ -343,9 +346,7 @@ app.on('remote-get-current-web-contents', (event) => {
   event.preventDefault();
 });
 
-ipcMain.handle('applications-version', () => {
-  return app.getVersion();
-});
+ipcMain.handle('applications-version', () => app.getVersion());
 
-ipcMain.handle('auth-login', (_, args) => AuthController.login(args));
-ipcMain.handle('auth-signup', (_, args) => AuthController.signup(args));
+// ipcMain.handle('auth-login', (_, args) => AuthController.login(args));
+// ipcMain.handle('auth-signup', (_, args) => AuthController.signup(args));

@@ -1,7 +1,7 @@
 {
   "name": "desktop-todo-app",
   "version": "1.0.0",
-  "description": "The best way to build Electron apps with knex query builder with react",
+  "description": "The best way to build Electron apps with raw query builder with react",
   "private": true,
   "main": "app/electron/main.js",
   "author": "Fenil Jariwala <feniljariwala82@gmail.com> (https://feniljariwala.netlify.app/)",
@@ -11,6 +11,7 @@
     "translate": "node ./app/localization/translateMissing.js",
     "dev-server": "cross-env NODE_ENV=development webpack serve --config ./webpack.development.js > dev-scripts/webpack-dev-server.log 2> dev-scripts/webpack-dev-server-error.log",
     "dev": "concurrently --success first \"yarn css-watch\" \"nodemon dev-scripts/prepareDevServer.js\" \"nodemon dev-scripts/launchDevServer.js\" -k",
+    "e-dev": "cross-env NODE_ENV=production yarn dev",
     "prod-build": "cross-env NODE_ENV=production npx webpack --mode=production --config ./webpack.production.js",
     "prod": "npm run prod-build && electron .",
     "pack": "electron-builder --dir",
@@ -20,12 +21,9 @@
     "make-windows": "rm -rf ./release && npm run prod-build && set DEBUG=electron-builder && electron-builder --windows --publish never",
     "make-all": "npm run test && npm run prod-build && electron-builder --mac --linux --windows",
     "test": "mocha",
-    "knex:init": "knex init",
-    "make:migration": "knex migrate:make",
-    "migration:status": "knex migrate:list",
-    "migration:down": "knex migrate:down",
-    "migration:latest": "knex migrate:latest",
-    "migration:rollback": "knex migrate:rollback",
+    "make:migration": "sequelize-cli migration:generate --name",
+    "migration:run": "node ./app/electron/scripts/migrations/up.js",
+    "migration:rollback": "node ./app/electron/scripts/migrations/down.js",
     "css-build": "node-sass --omit-source-map-url resources/scss/app.scss app/src/app.css",
     "css-watch": "npm run css-build -- --watch",
     "upgrade": "yarn upgrade-interactive --latest"
@@ -35,6 +33,7 @@
     "url": "https://github.com/feniljariwala82/desktop-todo-app.git"
   },
   "build": {
+    "asar": true,
     "productName": "Todo Hut",
     "appId": "electron.todohut.app",
     "directories": {
@@ -56,6 +55,9 @@
       "target": [
         "nsis"
       ]
+    },
+    "nsis": {
+      "runAfterFinish": false
     },
     "linux": {
       "target": [
@@ -91,6 +93,7 @@
     "@google-cloud/translate": "^6.3.1",
     "@redux-devtools/core": "^3.13.1",
     "@types/dotenv": "^8.2.0",
+    "@types/lodash": "^4.14.182",
     "@types/sqlite3": "^3.1.8",
     "@types/validator": "^13.7.3",
     "babel-loader": "^8.2.3",
@@ -133,13 +136,15 @@
     "@fortawesome/free-regular-svg-icons": "^6.1.1",
     "@fortawesome/free-solid-svg-icons": "^6.1.1",
     "@fortawesome/react-fontawesome": "^0.2.0",
+    "@journeyapps/sqlcipher": "^5.3.1",
     "@reduxjs/toolkit": "^1.8.3",
     "babel-plugin-macros": "^3.1.0",
     "bcrypt": "^5.0.1",
     "dotenv": "^16.0.1",
     "electron-devtools-installer": "^3.2.0",
-    "knex": "^2.1.0",
-    "luxon": "^2.4.0",
+    "electron-log": "^4.4.8",
+    "lodash": "^4.17.21",
+    "lru-cache": "^7.12.0",
     "process": "^0.11.10",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
